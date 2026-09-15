@@ -5,23 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Performance Lab by Julia</title>
   <meta name="description" content="Julia Charaf — Seattle personal trainer, online worldwide. Programs, coaching, and how to reach me.">
-  <link rel="icon" type="image/png" href="assets/logo.png">
+  <meta name="theme-color" content="#050809">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
   <meta property="og:title" content="Performance Lab by Julia">
   <meta property="og:description" content="Programs, coaching, and how to reach Julia.">
-  <meta property="og:image" content="assets/hero.jpg">
+  <meta property="og:image" content="assets/crest-og.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <style>
+    /* Palette sampled from the crest: black ground, chrome silver, lab teal, one copper accent from the sunset */
     :root {
-      --bg-page: rgb(40, 85, 90);
-      --bg-card: rgb(49, 94, 99);
-      --fg: rgb(219, 253, 250);
-      --fg-70: rgba(219, 253, 250, 0.7);
-      --fg-20: rgba(219, 253, 250, 0.2);
-      --mid-10: rgba(255, 255, 255, 0.1);
-      --mid-20: rgba(255, 255, 255, 0.2);
-      --mid-40: rgba(255, 255, 255, 0.4);
+      --bg-page: #030506;
+      --bg-card: #0a1012;
+      --bg-card-glass: rgba(10, 16, 18, 0.86);
+      --fg: #e6e9e7;
+      --fg-70: rgba(230, 233, 231, 0.7);
+      --fg-20: rgba(230, 233, 231, 0.2);
+      --teal: #2fb5ad;
+      --teal-deep: #1b6f6b;
+      --aqua: #8fe3dc;
+      --copper: #d56528;
+      --teal-10: rgba(47, 181, 173, 0.10);
+      --teal-16: rgba(47, 181, 173, 0.16);
+      --teal-24: rgba(47, 181, 173, 0.24);
+      --teal-45: rgba(47, 181, 173, 0.45);
+      --mid-10: rgba(255, 255, 255, 0.07);
+      --mid-14: rgba(255, 255, 255, 0.11);
+      --mid-20: rgba(255, 255, 255, 0.16);
+      --mid-40: rgba(255, 255, 255, 0.3);
       --fast: .15s;
       --slow: .3s;
       --ease: cubic-bezier(.2, 0, 0, 1);
@@ -42,6 +55,7 @@
     a { color: inherit; }
     ul { list-style: none; margin: 0; padding: 0; }
     h2, h3 { margin: 0; }
+    img { -webkit-user-drag: none; }
 
     .page {
       display: flex;
@@ -51,17 +65,30 @@
       min-height: 100vh;
       background: var(--bg-page);
     }
-    .page-bg {
+    /* Page ground (desktop): the crest's own nebula, blurred, lights the page;
+       the crest itself ghosts behind the card at 120vh. */
+    .page-bg, .page-crest {
       display: none;
       position: fixed;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+    }
+    .page-bg {
       top: 0; left: 0;
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center;
-      filter: blur(128px);
-      z-index: 0;
-      pointer-events: none;
-      user-select: none;
+      filter: blur(56px) saturate(1.25);
+      transform: scale(1.15);
+    }
+    .page-crest {
+      top: 50%; left: 50%;
+      width: auto; height: 136vh;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: screen;
+      opacity: .26;
+      filter: blur(1.5px);
     }
 
     .card {
@@ -89,6 +116,41 @@
       pointer-events: none;
     }
 
+    /* Sticky mini-brand: appears once the cover scrolls away */
+    .pin {
+      position: fixed;
+      top: 12px; left: 12px;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 40px;
+      padding: 0 14px 0 4px;
+      border-radius: 999px;
+      background: rgba(5, 8, 9, 0.82);
+      border: 1px solid var(--teal-24);
+      box-shadow: 0 8px 30px -10px var(--teal-45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: var(--fg);
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
+    }
+    .pin.on { opacity: 1; transform: none; pointer-events: auto; }
+    .pin img { width: 40px; height: 40px; margin: -2px 0; display: block; }
+    .pin span {
+      font-size: 10px;
+      line-height: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .pin span b { color: var(--aqua); font-weight: 700; }
+
     /* hero */
     .hero {
       display: flex;
@@ -106,11 +168,11 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: linear-gradient(180deg, transparent 75%, var(--bg-card) 100%);
+      background: linear-gradient(180deg, transparent 62%, var(--bg-card) 100%);
       z-index: 1;
       pointer-events: none;
     }
-    .portrait img {
+    .portrait > img {
       display: block;
       width: 100%;
       height: auto;
@@ -120,6 +182,45 @@
       background: var(--mid-10);
       border-radius: 0;
     }
+    /* The crest, straddling the bottom edge of the cover.
+       A soft black halo darkens the photo under it; the crest is screen-blended
+       so its black ground disappears and only the chrome + nebula remain. */
+    .crest {
+      position: absolute;
+      left: 50%;
+      bottom: -100px;
+      width: 200px; height: 200px;
+      transform: translateX(-50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .crest::before {
+      content: "";
+      position: absolute;
+      inset: -6%;
+      border-radius: 50%;
+      background: radial-gradient(circle farthest-side, var(--bg-card) 0 66%, rgba(10,16,18,0.7) 80%, transparent 100%);
+    }
+    .crest::after {
+      content: "";
+      position: absolute;
+      inset: 4%;
+      border-radius: 50%;
+      box-shadow: 0 0 60px 8px var(--teal-24);
+      animation: breathe 5s ease-in-out infinite;
+    }
+    .crest img {
+      position: relative;
+      display: block;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    @keyframes breathe {
+      0%, 100% { box-shadow: 0 0 60px 8px var(--teal-24); }
+      50% { box-shadow: 0 0 80px 18px var(--teal-45); }
+    }
+    @media (prefers-reduced-motion: reduce) { .crest::after { animation: none; } }
+
     .hero-content {
       position: relative;
       display: flex;
@@ -135,7 +236,7 @@
     .social {
       display: flex;
       gap: 16px;
-      margin-top: 16px;
+      margin-top: 128px;
       color: var(--fg);
     }
     .social a {
@@ -144,10 +245,10 @@
       justify-content: center;
       width: 24px; height: 24px;
       color: var(--fg);
-      transition: color var(--fast) var(--ease);
+      transition: color var(--fast) var(--ease), filter var(--fast) var(--ease);
     }
-    .social a:hover { color: rgba(219, 253, 250, 0.8); }
-    .social a:active { color: rgba(219, 253, 250, 0.6); }
+    .social a:hover { color: var(--aqua); filter: drop-shadow(0 0 6px var(--teal-45)); }
+    .social a:active { color: var(--teal); }
     .social svg { width: 20px; height: 20px; display: block; }
 
     .tabs {
@@ -173,9 +274,14 @@
       text-decoration: none;
       cursor: pointer;
       white-space: nowrap;
-      transition: background-color var(--fast) var(--ease);
+      transition: background-color var(--fast) var(--ease), color var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
     }
-    .tab:hover, .tab.active { background: var(--mid-20); }
+    .tab:hover { background: var(--mid-14); }
+    .tab.active {
+      background: var(--teal-16);
+      color: var(--aqua);
+      box-shadow: inset 0 0 0 1px var(--teal-24);
+    }
 
     /* sections */
     .group {
@@ -184,13 +290,25 @@
       gap: 16px;
       padding: 0 0 16px 0;
       border-bottom: 1px solid var(--fg-20);
+      border-image: linear-gradient(90deg, var(--teal-45), var(--fg-20) 40%, transparent) 1;
       scroll-margin-top: 16px;
     }
     .group h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
       font-size: 20px;
       line-height: 25px;
       font-weight: 600;
       letter-spacing: -0.25px;
+    }
+    .group h2 small {
+      font-size: 11px;
+      line-height: 14px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--copper);
+      font-variant-numeric: tabular-nums;
     }
     .items-wrap { position: relative; overflow: hidden; }
     .items {
@@ -220,8 +338,11 @@
       position: absolute;
       overflow: hidden;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.14);
+      background: var(--mid-14);
+      box-shadow: 0 0 0 1px rgba(143, 227, 220, 0.12), 0 14px 30px -14px rgba(0, 0, 0, 0.8);
+      transition: box-shadow var(--fast) var(--ease);
     }
+    .item:hover .thumb { box-shadow: 0 0 0 1px var(--teal-45), 0 14px 34px -12px var(--teal-45); }
     .thumb img {
       display: block;
       width: 100%; height: 100%;
@@ -234,9 +355,10 @@
       justify-content: center;
       background: var(--mid-10);
       border-radius: 8px;
-      transition: background-color var(--fast) var(--ease);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+      transition: background-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
     }
-    .item:hover .body { background: rgba(255, 255, 255, 0.14); }
+    .item:hover .body { background: var(--teal-10); box-shadow: inset 0 0 0 1px var(--teal-24); }
     .content {
       display: flex;
       flex-direction: column;
@@ -304,9 +426,9 @@
       gap: 4px;
       flex-shrink: 0;
       border-radius: 888px;
-      border: 1px solid var(--fg);
+      border: 1px solid var(--teal);
       background: transparent;
-      color: var(--fg);
+      color: var(--aqua);
       text-decoration: none;
       overflow: hidden;
       cursor: pointer;
@@ -319,14 +441,15 @@
       width: 100%;
       aspect-ratio: 1;
       border-radius: 50%;
-      background: var(--mid-20);
+      background: var(--teal);
       transform: translate(-50%, -50%) scale(0);
       transition: transform var(--slow) var(--ease);
       pointer-events: none;
     }
-    .btn:hover::before { transform: translate(-50%, -50%) scale(3); }
+    .item:hover .btn { color: #041110; box-shadow: 0 0 22px -4px var(--teal-45); }
+    .item:hover .btn::before { transform: translate(-50%, -50%) scale(3); }
     .btn:active::before { opacity: 0; transition: none; }
-    .btn:active { background: var(--mid-40); }
+    .btn:active { background: var(--aqua); }
     .btn span {
       position: relative;
       font-size: 12px;
@@ -337,37 +460,58 @@
       text-rendering: geometricPrecision;
     }
 
-    /* footer */
+    /* footer: the crest, full size, on its own nebula */
     .foot {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      padding: 0;
+      padding: 8px 0 0;
     }
     .brand {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 2px;
       text-decoration: none;
       color: var(--fg-70);
     }
+    .brand .seal {
+      position: relative;
+      width: 280px; height: 280px;
+      margin-bottom: -40px;
+    }
+    .brand .seal::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle farthest-side, var(--bg-card) 0 70%, transparent 100%);
+    }
+    .brand .seal::after {
+      content: "";
+      position: absolute;
+      inset: 18%;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--teal-24), transparent 70%);
+      filter: blur(14px);
+      transition: opacity var(--slow) var(--ease), transform var(--slow) var(--ease);
+    }
+    .brand:hover .seal::after { transform: scale(1.25); }
+    .brand .seal img {
+      position: relative;
+      display: block;
+      width: 100%; height: 100%;
+      transition: transform var(--slow) var(--ease);
+    }
+    .brand:hover .seal img { transform: scale(1.03); }
     .brand small {
       font-size: 8px;
       line-height: 12px;
       font-weight: 500;
       letter-spacing: 2px;
       text-transform: uppercase;
-    }
-    .brand strong {
-      display: block;
-      font-size: 22px;
-      line-height: 24px;
-      font-weight: 800;
-      letter-spacing: 3px;
-      color: var(--fg);
-      white-space: nowrap;
     }
     .foot-links {
       display: flex;
@@ -382,12 +526,12 @@
       color: var(--fg-70);
       text-decoration: none;
     }
-    .foot-links a:hover { text-decoration: underline; }
+    .foot-links a:hover { text-decoration: underline; color: var(--aqua); }
 
     /* desktop */
     @media (min-width: 481px) {
       :root { --thumb: 144px; }
-      .page-bg { display: block; }
+      .page-bg, .page-crest { display: block; }
       .card {
         min-height: auto;
         max-width: 736px;
@@ -395,6 +539,10 @@
         gap: 24px;
         border-radius: 12px;
         margin: 80px;
+        background: var(--bg-card-glass);
+        backdrop-filter: blur(28px) saturate(1.2);
+        -webkit-backdrop-filter: blur(28px) saturate(1.2);
+        box-shadow: 0 0 0 1px rgba(143, 227, 220, 0.08), 0 40px 120px -40px rgba(0, 0, 0, 0.9);
       }
       .topbar {
         position: relative;
@@ -402,16 +550,21 @@
         width: 100%;
         margin: 0;
       }
+      .pin { top: 20px; left: 20px; }
       .hero { gap: 24px; }
       .portrait { width: 390px; }
       .portrait::before { display: none; }
-      .portrait img { border-radius: 16px; }
+      .portrait > img {
+        border-radius: 16px;
+        box-shadow: 0 0 0 1px rgba(143, 227, 220, 0.16), 0 40px 90px -30px var(--teal-45);
+      }
+      .crest { width: 232px; height: 232px; bottom: -116px; }
       .hero-content {
         width: 100%;
         margin-top: 0;
         gap: 24px;
       }
-      .social { margin-top: 24px; }
+      .social { margin-top: 104px; }
       .social a { width: 32px; height: 32px; }
       .social svg { width: 24px; height: 24px; }
       .group h2 { font-size: 24px; line-height: 30px; }
@@ -432,6 +585,7 @@
       }
       .btn { height: 32px; }
       .group { scroll-margin-top: 0; }
+      .brand .seal { width: 340px; height: 340px; margin-bottom: -52px; }
     }
     @media (max-width: 480px) {
       .page { min-height: 100dvh; }
@@ -440,14 +594,23 @@
 </head>
 <body>
   <div class="page">
-    <img class="page-bg" src="assets/hero-blur.jpg" alt="" aria-hidden="true">
+    <img class="page-bg" src="assets/glow.jpg" alt="" aria-hidden="true">
+    <img class="page-crest" src="assets/crest.png" alt="" aria-hidden="true">
 
-    <main class="card">
+    <a class="pin" id="pin" href="#top" aria-label="Back to top">
+      <img src="assets/crest.png" alt="" aria-hidden="true">
+      <span>Julia's <b>Performance Lab</b></span>
+    </a>
+
+    <main class="card" id="top">
       <div class="topbar" aria-hidden="true"></div>
 
       <header class="hero">
-        <div class="portrait">
-          <img src="assets/hero.jpg" alt="Julia Charaf" width="780" height="975" fetchpriority="high">
+        <div class="portrait" id="cover">
+          <img src="assets/hero.jpg" alt="Julia Charaf in the gym" width="1170" height="1462" fetchpriority="high">
+          <div class="crest" aria-hidden="true">
+            <img src="assets/crest.png" alt="">
+          </div>
         </div>
         <div class="hero-content">
           <ul class="social" aria-label="Julia's links">
@@ -473,7 +636,7 @@
       </header>
 
       <section class="group" id="programs">
-        <h2>PROGRAMS</h2>
+        <h2><small>01</small>PROGRAMS</h2>
         <div class="items-wrap">
           <div class="items">
             <a class="item stacked" href="https://coach.everfit.io/package/OR589374" target="_blank" rel="noopener">
@@ -511,7 +674,7 @@
       </section>
 
       <section class="group" id="coaching">
-        <h2>WORK WITH JULIA</h2>
+        <h2><small>02</small>WORK WITH JULIA</h2>
         <div class="items-wrap">
           <div class="items row">
             <a class="item side" href="https://calendly.com/trainwithjulia12" target="_blank" rel="noopener">
@@ -531,7 +694,7 @@
       </section>
 
       <section class="group" id="follow">
-        <h2>FOLLOW ALONG</h2>
+        <h2><small>03</small>FOLLOW ALONG</h2>
         <div class="items-wrap">
           <div class="items row">
             <a class="item side" href="https://www.instagram.com/performance.lab_byjulia" target="_blank" rel="noopener">
@@ -551,9 +714,9 @@
       </section>
 
       <footer class="foot">
-        <a class="brand" href="https://performancelab.fitness" target="_blank" rel="noopener">
+        <a class="brand" href="https://performancelab.fitness" target="_blank" rel="noopener" aria-label="Julia's Performance Lab">
+          <span class="seal"><img src="assets/crest.png" alt="Julia's Performance Lab" width="640" height="640" loading="lazy"></span>
           <small>Seattle · Online worldwide</small>
-          <strong>PERFORMANCE LAB</strong>
         </a>
         <div class="foot-links">
           <a href="mailto:trainwithjulia12@gmail.com">trainwithjulia12@gmail.com</a>
@@ -596,6 +759,19 @@
       }
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+
+      /* the mini-brand pin shows once the cover has scrolled out of view */
+      var pin = document.getElementById('pin');
+      var cover = document.getElementById('cover');
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          pin.classList.toggle('on', !entries[0].isIntersecting);
+        }, { threshold: 0 }).observe(cover);
+      }
+      pin.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
     })();
   </script>
 </body>
