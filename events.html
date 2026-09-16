@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upcoming Events · Performance Lab by Julia</title>
+  <meta name="description" content="Classes, pop-ups and group sessions with Julia Charaf. Seattle, and online.">
+  <meta name="theme-color" content="#050809">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <meta property="og:title" content="Upcoming Events · Performance Lab by Julia">
+  <meta property="og:description" content="Classes, pop-ups and group sessions with Julia.">
+  <meta property="og:image" content="assets/events-cover.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <img class="page-bg" src="assets/glow.jpg" alt="" aria-hidden="true">
+    <img class="page-crest" src="assets/crest.png" alt="" aria-hidden="true">
+
+    <a class="pin always" href="index.html" aria-label="Back to Performance Lab by Julia">
+      <img src="assets/crest.png" alt="" aria-hidden="true">
+      <span>Julia's <b>Performance Lab</b></span>
+    </a>
+
+    <main class="card" id="top">
+      <div class="topbar" aria-hidden="true"></div>
+
+      <header class="ev-cover">
+        <img src="assets/events-cover.jpg" alt="Julia coaching a class" width="1280" height="720" fetchpriority="high">
+        <div class="ev-title">
+          <small>Performance Lab</small>
+          <h1>Upcoming <b>Events</b></h1>
+          <p>Classes, pop-ups and group sessions with Julia. Seattle, and online.</p>
+        </div>
+      </header>
+
+      <section class="group" id="next">
+        <h2><small>01</small>NEXT UP</h2>
+
+        <!-- ============================================================
+             HOW TO POST AN EVENT
+             Copy the block below into the <ul> (newest at the bottom is fine,
+             they sort themselves by date). Fill in the six things:
+               data-date  = YYYY-MM-DD  (past dates hide automatically)
+               <b>        = month, 3 letters
+               <strong>   = day of the month
+               <i>        = weekday, 3 letters
+               <h3>       = the event name
+               <span>s    = time · place
+               href       = where "Join Now" goes (Everfit, Calendly, a DM link…)
+
+        <li class="event" data-date="2026-10-04">
+          <div class="date"><b>Oct</b><strong>4</strong><i>Sat</i></div>
+          <div class="content">
+            <h3>SATURDAY STRENGTH CLASS</h3>
+            <div class="meta"><span>9:00 AM</span><span>Capitol Hill, Seattle</span></div>
+            <p class="note">Open to all levels. Bring water.</p>
+            <a class="btn" href="https://calendly.com/trainwithjulia12" target="_blank" rel="noopener"><span>Join Now</span></a>
+          </div>
+        </li>
+             ============================================================ -->
+
+        <ul class="events" id="events">
+        </ul>
+
+        <div class="empty" id="empty">
+          <div class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="4.5" width="18" height="16.5" rx="2.5" stroke="currentColor" stroke-width="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M8 14.5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </div>
+          <h3>Nothing on the calendar yet</h3>
+          <p>New classes and pop-ups go up on Instagram first, then land here.</p>
+          <div class="row">
+            <a class="btn" href="https://www.instagram.com/performance.lab_byjulia" target="_blank" rel="noopener"><span>Follow on Instagram</span></a>
+            <a class="btn" href="mailto:trainwithjulia12@gmail.com?subject=Upcoming%20events"><span>Email Julia</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="group" id="host">
+        <h2><small>02</small>BRING JULIA TO YOUR GYM</h2>
+        <div class="ask">
+          <p><b>Run a gym, studio or team?</b> Julia coaches group sessions and pop-up classes in Seattle, and runs online sessions anywhere. Send the date, the space and roughly how many people.</p>
+          <a class="btn" href="mailto:trainwithjulia12@gmail.com?subject=Event%20at%20our%20gym"><span>Email Julia</span></a>
+        </div>
+      </section>
+
+      <a class="ev-back" href="index.html">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back to programs
+      </a>
+
+      <footer class="foot">
+        <a class="brand" href="index.html" aria-label="Julia's Performance Lab">
+          <span class="seal"><img src="assets/crest.png" alt="Julia's Performance Lab" width="640" height="640" loading="lazy"></span>
+          <small>Seattle · Online worldwide</small>
+        </a>
+        <div class="foot-links">
+          <a href="mailto:trainwithjulia12@gmail.com">trainwithjulia12@gmail.com</a>
+          <span>Performance Lab by Julia · Julia Charaf · Seattle, WA</span>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      /* sort by date, hide anything already past, show the empty state if nothing is left */
+      var list = document.getElementById('events');
+      var items = Array.prototype.slice.call(list.querySelectorAll('.event'));
+      var today = new Date(); today.setHours(0, 0, 0, 0);
+      items.sort(function (a, b) { return (a.dataset.date || '').localeCompare(b.dataset.date || ''); });
+      var live = 0;
+      items.forEach(function (li) {
+        list.appendChild(li);
+        var d = li.dataset.date ? new Date(li.dataset.date + 'T00:00:00') : null;
+        var past = d && !isNaN(d) && d < today;
+        li.classList.toggle('past', !!past);
+        if (!past) live++;
+      });
+      document.getElementById('empty').classList.toggle('on', live === 0);
+    })();
+  </script>
+</body>
+</html>
