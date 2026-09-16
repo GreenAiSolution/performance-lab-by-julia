@@ -558,6 +558,9 @@
     }
     @media (max-width: 480px) {
       .page { min-height: 100dvh; }
+      /* four tabs do not fit one phone row; wrap them centred instead of hiding the last one */
+      .tabs { flex-wrap: wrap; justify-content: center; row-gap: 4px; padding: 0 8px; }
+      .tabs::before, .tabs::after { display: none; }
     }
 
 /* ===== events.html ===== */

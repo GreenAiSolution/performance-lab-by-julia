@@ -52,6 +52,7 @@
             <li><a class="tab active" href="#programs" data-target="programs">PROGRAMS</a></li>
             <li><a class="tab" href="#coaching" data-target="coaching">WORK WITH JULIA</a></li>
             <li><a class="tab" href="#follow" data-target="follow">FOLLOW ALONG</a></li>
+            <li><a class="tab" href="about.html">ABOUT ME</a></li>
           </ul>
         </div>
       </header>
@@ -120,12 +121,6 @@
                 <div class="content"><h3>UPCOMING EVENTS</h3></div>
               </div>
             </a>
-            <a class="item side" href="about.html">
-              <div class="thumb"><img src="assets/about-thumb.jpg" alt="About Julia" width="288" height="288" loading="lazy"></div>
-              <div class="body">
-                <div class="content"><h3>ABOUT JULIA</h3></div>
-              </div>
-            </a>
           </div>
         </div>
       </section>
@@ -165,7 +160,8 @@
 
   <script>
     (function () {
-      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+      /* tabs with a data-target scroll in-page; a tab without one (ABOUT ME) is a plain link */
+      var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab[data-target]'));
       var groups = tabs.map(function (t) { return document.getElementById(t.dataset.target); });
       var lock = 0;
 
