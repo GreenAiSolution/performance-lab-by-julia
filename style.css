@@ -846,6 +846,70 @@
 .ab-copy p { margin: 0; font-size: 15px; line-height: 22px; color: var(--fg-70); }
 .ab-copy p strong { color: var(--fg); font-weight: 600; }
 
+.foundation {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 4px;
+}
+.foundation li {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(5, 8, 9, 0.6);
+  box-shadow: 0 0 0 1px var(--teal-24);
+}
+.foundation li > img {
+  flex: 0 0 64px;
+  width: 64px; height: auto;
+  margin-top: 2px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.08));
+}
+.foundation li.uw::after {
+  content: "";
+  position: absolute;
+  right: -30px; bottom: -40px;
+  width: 200px; height: 122px;
+  background: url("assets/uw.png") center / contain no-repeat;
+  opacity: .07;
+  pointer-events: none;
+}
+.foundation .mark {
+  flex: 0 0 40px;
+  width: 40px; height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--teal-10);
+  box-shadow: 0 0 0 1px var(--teal-24);
+  color: var(--aqua);
+}
+.foundation .mark svg { width: 20px; height: 20px; }
+.foundation small {
+  display: block;
+  font-size: 10px;
+  line-height: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 4px;
+}
+.foundation h3 { font-size: 16px; line-height: 20px; font-weight: 700; letter-spacing: -0.25px; }
+.foundation p { margin: 6px 0 0; font-size: 13px; line-height: 18px; color: var(--fg-70); }
+.creds li.uw-tile { position: relative; overflow: hidden; }
+.creds li.uw-tile img {
+  position: absolute;
+  right: -6px; bottom: -6px;
+  width: 54px; height: auto;
+  opacity: .28;
+  pointer-events: none;
+}
+
 .pillars {
   display: grid;
   grid-template-columns: 1fr;
@@ -951,6 +1015,9 @@
   .ab-chips { justify-content: flex-start; }
   .ab-copy h3 { font-size: 26px; line-height: 30px; }
   .ab-copy p { font-size: 16px; line-height: 24px; }
+  .foundation { grid-template-columns: repeat(2, 1fr); }
+  .foundation li > img { flex-basis: 76px; width: 76px; }
+  .foundation p { font-size: 14px; line-height: 19px; }
   .pillars { grid-template-columns: repeat(2, 1fr); }
   .pillar { padding: 16px; }
   .pillar p { font-size: 14px; line-height: 19px; }
