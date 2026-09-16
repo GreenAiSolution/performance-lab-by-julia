@@ -420,6 +420,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      width: 100%;
       gap: 2px;
       text-decoration: none;
       color: var(--fg-70);
@@ -427,7 +428,7 @@
     .brand .seal {
       position: relative;
       width: 280px; height: 280px;
-      margin-bottom: -40px;
+      margin-bottom: -16px;
     }
     .brand .seal::before {
       content: "";
@@ -453,22 +454,42 @@
       transition: transform var(--slow) var(--ease);
     }
     .brand:hover .seal img { transform: scale(1.03); }
+    /* caption sits clear of the seal: a hairline each side, the crest's teal on the dot */
     .brand small {
-      font-size: 8px;
-      line-height: 12px;
-      font-weight: 500;
-      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      font-size: 10px;
+      line-height: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
       text-transform: uppercase;
+      color: var(--fg);
+      white-space: nowrap;
+      transition: color var(--fast) var(--ease);
     }
+    .brand small::before, .brand small::after {
+      content: "";
+      flex: 1 1 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal-45));
+    }
+    .brand small::after { background: linear-gradient(90deg, var(--teal-45), transparent); }
+    .brand small i { font-style: normal; color: var(--teal); margin: 0 2px; }
+    .brand:hover small { color: var(--aqua); }
     .foot-links {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
+      padding-bottom: 8px;
     }
     .foot-links a, .foot-links span {
-      font-size: 8px;
-      line-height: 12px;
+      font-size: 11px;
+      line-height: 16px;
       font-weight: 500;
       color: var(--fg-70);
       text-decoration: none;
@@ -531,7 +552,9 @@
       }
       .btn { height: 32px; }
       .group { scroll-margin-top: 0; }
-      .brand .seal { width: 340px; height: 340px; margin-bottom: -52px; }
+      .brand .seal { width: 340px; height: 340px; margin-bottom: -24px; }
+      .brand { width: 420px; }
+      .brand small { font-size: 11px; line-height: 16px; }
     }
     @media (max-width: 480px) {
       .page { min-height: 100dvh; }
