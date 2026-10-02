@@ -24,7 +24,7 @@ then open http://localhost:8204/
 
 ## Links on the page
 
-Everything links to Julia's real accounts: Everfit packages for Summer Shred and
+Everything links to Julia's real accounts: Everfit packages for Women's Shred and
 Mommy Makeover, Calendly for 1-on-1 coaching and calls, Instagram
 `@performance.lab_byjulia`, TikTok `@juliacharaf`, and her email. No prices are
 shown because her programs are priced through Everfit and on consultation.
